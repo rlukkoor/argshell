@@ -1,0 +1,52 @@
+ASGN1 Design Document
+
+Rohith Lukkoor
+cruzid: rlukkoor
+CMPS 111, Fall 2018
+
+1. Goal
+The goal of this program is to implement a simple FreeBSD shell program that conveniently allows you to run other programs
+
+2. Assumptions
+I'm assuming that a single command line cannot be longer than 4096 characters, as specified in shell.l. Also, I'm assuming that a cd command cannot contain more than 1024 characters, as I specified in argshell.c
+
+3. I have two functions in argshell.c. One is an execute function, and the other is a main. I have my dup2, close, and execvp calls in exec(), and search for all the special characters (i.e., ">", ">&", "|", etc...) and make them do what the assignment instructions specify.
+
+4. Pseudocode
+procedure argshell
+	fork child
+		do dup2() and close()
+		do execvp
+	close file descriptors
+	wait for the child processes to finish
+
+while(1)
+	loop
+		Search for ";"
+			put arguments in buffer and execute
+			reset buffer
+		Search for "cd"
+			getcwd if next arg is NULL or ";"
+			perform cd if otherwise
+		Search for "<"
+			open file
+			go to exec()
+		Search for ">", ">>", ">&", ">>&", "|&"
+			set proper flags
+			open file
+			go to exec()
+		Search for "|"
+			Fork 1st child process
+				dup2() and close()
+				execute
+			Fork 2nd child process
+				dup2() and close()
+				execute
+			copy arguments into argument buffer
+		end loop
+		execute argument buffer
+end procedure
+
+5. Sources
+I got help with pipe() from TA Natasha in discussion section
+I got help with exec() from http://www.csl.mtu.edu/cs4411.ck/www/NOTES/process/fork/exec.html
