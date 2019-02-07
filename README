@@ -1,2 +1,1 @@
-All the requirements work except for pipe, which I was unable to implement correctly. 
-I spoke to the professor and TA Natasha about an issue where my stderr case was not working in FreeBSD, but it does work correctly when I run the program on my desktop. I know other people who had this problem, and others who did not. However, I do know that my cases for ">&" and ">>&" are implemented correctly.
+
